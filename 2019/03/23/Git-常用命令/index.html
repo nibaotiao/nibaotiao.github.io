@@ -4,9 +4,13 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="密码学初窥, 跳跳爱可乐">
-    <meta name="description" content="Base64base64是一种完全可反编译的编码方式，因为其编码算法完全公开，所以分分钟会被破解，所以这个一定不能用于密码的‘加密’。一些不需要特别加密的信息，比如用户名，我们可以用base64进行编码，让人一眼看不出来是什么就可以了。
-b">
+    <meta name="keywords" content="Git 常用命令, 跳跳爱可乐">
+    <meta name="description" content="Git 项目拥有三个阶段：工作区、暂存区以及 Git 目录。
+
+
+工作区是对项目的某个版本独立提取出来的内容。 这些从 Git 仓库的压缩数据库中提取出来的文件，放在磁盘上供你使用或修改。
+
+暂存区是一个文件，保存了下次将要提交的文件列表信">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -14,7 +18,7 @@ b">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>密码学初窥 | 跳跳爱可乐</title>
+    <title>Git 常用命令 | 跳跳爱可乐</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -304,12 +308,12 @@ b">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">密码学初窥</h1>
+                    <h1 class="description center-align post-title">Git 常用命令</h1>
                 </div>
             </div>
         </div>
@@ -426,28 +430,8 @@ b">
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Base64/">
-                                <span class="chip bg-color">Base64</span>
-                            </a>
-                        
-                            <a href="/tags/MD5/">
-                                <span class="chip bg-color">MD5</span>
-                            </a>
-                        
-                            <a href="/tags/HMAC/">
-                                <span class="chip bg-color">HMAC</span>
-                            </a>
-                        
-                            <a href="/tags/AES/">
-                                <span class="chip bg-color">AES</span>
-                            </a>
-                        
-                            <a href="/tags/RSA/">
-                                <span class="chip bg-color">RSA</span>
-                            </a>
-                        
-                            <a href="/tags/指纹识别/">
-                                <span class="chip bg-color">指纹识别</span>
+                            <a href="/tags/Git/">
+                                <span class="chip bg-color">Git</span>
                             </a>
                         
                     </div>
@@ -462,7 +446,7 @@ b">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-10-11
+                    2019-03-23
                 </div>
                 
 
@@ -479,83 +463,290 @@ b">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Base64"><a href="#Base64" class="headerlink" title="Base64"></a>Base64</h2><p>base64是一种完全可反编译的编码方式，因为其编码算法完全公开，所以分分钟会被破解，所以这个一定不能用于密码的‘加密’。一些不需要特别加密的信息，比如用户名，我们可以用base64进行编码，让人一眼看不出来是什么就可以了。</p>
-<p>base64是网络上最常见的用于传输8bit字节代码的编码方式之一，base64要求把每3个8bit字节转换为4个6bit的字节，然后把6bit再添加两个高位0，组成4个8bit的字节，也就是转换后字符串要变原来长1/3。</p>
-<p>比如说：</p>
-<pre><code>转换前 aaaaaabb ccccdddd eeffffff
-转换后 00aaaaaa 00bbcccc 00ddddee 00ffffff</code></pre><p>上面的三个字节是原文，下面四个字节是转换后的base64编码，其前两位均为0.</p>
-<p>转换后，我们用一个码表来得到我们想要的字符串（最终的base64编码）</p>
-<p><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1570779290584&di=861dc30fbdbeef988b0adf2aca44be41&imgtype=jpg&src=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D436575270%2C516839960%26fm%3D214%26gp%3D0.jpg" alt></p>
-<p>我们再看一个例子：</p>
-<p>转换前 10101101 10111010 01110110<br>转换后 00101011 00011011 00101001 00110110</p>
-<p>对应的十进制是 43 27 41 54<br>对应码表中的 rbp2</p>
-<p>可是原文的字节数应该是3的倍数把，如果这个条件不满足的话，应该怎么办呢？</p>
-<p>解决方案是：原文的字节不够的地方可以用0来补足，转换成base64编码用=来代替。这就是为什么有的base64编码会以一个或者两个等号结束的原因，但等号最多只有两个。</p>
-<p>因为：</p>
-<pre><code>余数 = 原文字节数  MOD 3</code></pre><p>所以余数在任何情况下都只可能是0 1 2中的一个。如果余数是0的话，表示原文的字节数正好是3的倍数。如果是1的话，就让base64编码是3的倍数，就要补2个等号；同理，如果是2的话，就要补1个等号。</p>
-<p>因为=字符并不在base64码表里，其意义在于结束符号，在base64编码时遇见=即可知道base64编码字符串结束了。</p>
-<h2 id="MD5"><a href="#MD5" class="headerlink" title="MD5"></a>MD5</h2><p>全称是Message Digest Algorithm 5，翻译为 消息摘要算法第五版。它能对输入信息生成唯一的128位（16字节）32个字符的散列值。输入两个不同的明文不会得到相同输出值。</p>
-<p><strong>其过程是不可逆的</strong></p>
-<p>由于MD5加密算法具有较好的安全性，而且免费，因此该算法被广泛使用。</p>
-<p>主要用于数字签名，文件完整性验证以及口令加密等方面。</p>
-<p><img src="http://api.cocoachina.com/uploads//20180322/1521683538237825.png" alt="一个交互实例"></p>
-<p>当用户注册，登录时，我们可以直接对密码进行md5操作，用户登录时，系统把用户输入的密码计算md5值，然后再去和系统中保存的md5进行比较，只要一样就可以登录，系统并不知道用户的密码是什么。</p>
-<p>MD5的特点：</p>
+                <p><strong>Git 项目拥有三个阶段：工作区、暂存区以及 Git 目录。</strong></p>
+<p><img src="https://git-scm.com/book/en/v2/images/areas.png" alt></p>
 <ul>
-<li>压缩性：任意长度的数据，计算出来的md5值长度都是固定的</li>
-<li>容易计算：从原始数据计算出md5的值非常容易</li>
-<li>抗修改性：对原始数据的任何改动，哪怕只修改一个字节，所得到的的md5的散列值都会有很大区别</li>
-<li>弱抗碰撞：已知原始数据和其md5值，想找到一具有相同md5值的数据是非常困难的（伪造数据）</li>
-<li>强抗碰撞：想到两个不同的数据，使他们具有相同的md5散列值是非常困难的</li>
+<li><p>工作区是对项目的某个版本独立提取出来的内容。 这些从 Git 仓库的压缩数据库中提取出来的文件，放在磁盘上供你使用或修改。</p>
+</li>
+<li><p>暂存区是一个文件，保存了下次将要提交的文件列表信息，一般在 Git 仓库目录中。 按照 Git 的术语叫做“索引”，不过一般说法还是叫“暂存区”。</p>
+</li>
+<li><p>Git 仓库目录是 Git 用来保存项目的元数据和对象数据库的地方。 这是 Git 中最重要的部分，从其它计算机克隆仓库时，复制的就是这里的数据。</p>
+</li>
 </ul>
-<blockquote>
-<p>不过现在，MD5已不再绝对安全，网上有很多可以查询MD5原始数据的网站。</p>
-</blockquote>
-<p>针对这种情况，需要对md5稍作修改，增加解密的难度。</p>
-<ul>
-<li>加盐 salt： 在明文的固定位置插入随机串，然后再进行md5</li>
-<li>先加密，后乱序：先对明文进行md5，然后对加密得到的md5字符串进行乱序。</li>
-</ul>
-<p>宗旨，就算被人攻破数据库，也无法正确解密正确的明文。</p>
-<h2 id="AES"><a href="#AES" class="headerlink" title="AES"></a>AES</h2><p>高级加密标准advanced encryption standard，简称AES。是美国联邦政府采用的一种区块加密标准。AES设计有三个密钥长度：128，192，256位，相对而言，AES的128密钥比DES的56密钥强1021倍。AES算法主要包括三个方面：轮变化，圈数和密钥扩展。</p>
-<p>AES加密的特点：</p>
-<ul>
-<li>安全性强，高性能，高效率，易用灵活</li>
-<li>在软件和硬件上都能快速的加密解密，只需要很少的存储资源</li>
-</ul>
-<p>AES的使用：除了类库本身只有Config类里面包含AESCrpt.h，只有两个方法用到。一个是保存用户名和密码，密码使用了AES加密，另一个是解密密码后再返回这个密码；保存用户名和密码是将用户名和密码放到了本地的一个沙盒之中，获取的时候直接从本地读取加密后的文件，经过解密和服务器上用户数据进行比较。</p>
-<pre><code>-(void)saveUserNameAndPwd:(NSString *)userName andPwd:(NSString *)pwd  
-{  
-    NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];  
-    [settings removeObjectForKey:@&quot;UserName&quot;];  
-    [settings removeObjectForKey:@&quot;Password&quot;];  
-    [settings setObject:userName forKey:@&quot;UserName&quot;];  
+<p>基本的 Git 工作流程如下：</p>
+<ol>
+<li><p>在工作区中修改文件。</p>
+</li>
+<li><p>将你想要下次提交的更改选择性地暂存，这样只会将更改的部分添加到暂存区。</p>
+</li>
+<li><p>提交更新，找到暂存区的文件，将快照永久性存储到 Git 目录。</p>
+</li>
+<li><p>推到远程仓库。</p>
+</li>
+</ol>
+<h3 id="Remote：远程仓库"><a href="#Remote：远程仓库" class="headerlink" title="Remote：远程仓库"></a>Remote：远程仓库</h3><p>下文remote一般指的就是origin</p>
+<pre><code>新建代码库
+//在当前目录新建一个Git代码库
+$ git init
 
-    pwd = [AESCrypt encrypt:pwd password:@&quot;pwd&quot;];  
+//新建一个目录，将其初始化为Git代码库
+$ git init [project-name]
 
-    [settings setObject:pwd forKey:@&quot;Password&quot;];  
-    [settings synchronize];  
-}  
--(NSString *)getPwd  
-{  
-    NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];  
-    NSString * temp = [settings objectForKey:@&quot;Password&quot;];  
-    return [AESCrypt decrypt:temp password:@&quot;pwd&quot;];  
-}</code></pre><p>正如官方给出示例用法一样，AES的使用非常简单，首先要添加头文件 #import “AESCrypt.h”，使用示例如下：</p>
-<pre><code>NSString *pwdKey = @&quot;新风作浪&quot;;  
-NSString *password = @&quot;duxinfeng123456&quot;;  
+//下载一个项目和它的整个代码历史
+$ git clone https://gitee.com/allinpalm/jst-ios.git</code></pre><h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）。</p>
+<pre><code>//显示当前的Git配置
+$ git config --list
 
-NSString *encryptedPWD = [AESCrypt encrypt:password password:pwdKey];  
-NSString *decryptedPWD = [AESCrypt decrypt:encryptedPWD password:pwdKey];  
+//设置提交代码时的用户信息
+$ git config --global user.name &quot;Jack&quot;
+$ git config --global user.email &quot;JackMa@alibaba.com&quot;</code></pre><h3 id="增加-删除文件"><a href="#增加-删除文件" class="headerlink" title="增加/删除文件"></a>增加/删除文件</h3><pre><code>//添加指定文件到暂存区
+$ git add file1 file2 ...
 
-NSLog(@&quot;加密后密码:%@  解密后密码: %@&quot;,encryptedPWD,decryptedPWD);</code></pre><h2 id="RSA"><a href="#RSA" class="headerlink" title="RSA"></a>RSA</h2><p>RSA是非对称加密算法，它需要两个密钥：</p>
-<ul>
-<li>公钥（public key）</li>
-<li>私钥 （private key）</li>
-</ul>
-<p>公钥和私钥是一对，如果用公钥对数据加密，只有对应的私钥才能解密；如果用私钥对数据进行加密，那么只有对应的公钥才能解密。</p>
-<p>优点：算法复杂度强，安全性依赖于算法于密钥<br>缺点：加密速度没有对称加密速度快，一般用于小数据</p>
+//添加指定目录到暂存区，包括子目录
+$ git add dir
 
+//添加当前目录的所有文件到暂存区
+$ git add .
+
+//删除工作区文件，并且将这次删除放入暂存区
+$ git rm file1 file2 ...
+
+//停止追踪指定文件，但该文件会保留在工作区
+$ git rm --cached file
+
+//改名文件，并且将这个改名放入暂存区
+$ git mv file-original file-renamed</code></pre><h3 id="代码提交"><a href="#代码提交" class="headerlink" title="代码提交"></a>代码提交</h3><pre><code>//提交暂存区到仓库区
+$ git commit -m &quot;提交日志&quot;
+
+//提交暂存区的指定文件到仓库区
+$ git commit file1 file2 ... -m &quot;提交日志&quot;
+
+//提交工作区自上次commit之后的变化，直接到仓库区
+$ git commit -a
+
+//提交时显示所有diff信息
+$ git commit -v
+
+# 使用一次新的commit，替代上一次提交
+# 如果代码没有任何新变化，则用来改写上一次commit的提交信息
+$ git commit --amend -m &quot;提交日志&quot;
+
+//重做上一次commit，并包括指定文件的新变化
+$ git commit --amend file1 file2 ...</code></pre><h3 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h3><pre><code>//列出所有本地分支
+$ git branch -l
+
+//列出所有远程分支
+$ git branch -r
+
+//列出所有本地分支和远程分支
+$ git branch -a
+
+//新建一个分支，但依然停留在当前分支
+$ git branch branch-name
+
+//新建一个分支，并切换到该分支
+$ git checkout -b branch
+
+//新建一个分支，与指定的远程分支建立追踪关系
+$ git branch --track branch remote-branch
+
+//当我想从远程仓库里拉取一条本地不存在的分支时
+$ git checkout -b 本地分支名 origin/远程分支名
+这个将会自动创建一个新的本地分支，并与指定的远程分支关联起来
+
+//切换到指定分支，并更新工作区
+$ git checkout branch-name
+
+//切换到上一个分支
+$ git checkout -
+
+//建立追踪关系，在现有分支与指定的远程分支之间
+$ git branch --set-upstream branch remote-branch
+
+//合并指定分支到当前分支
+$ git merge branch
+
+# 选择一个commit，合并进当前分支
+$ git cherry-pick commit
+
+//删除分支
+$ git branch -d branch-name
+
+//删除远程分支
+$ git push origin --delete branch-name
+$ git branch -dr remote/branch
+
+//本地存在一个分支，名称叫：develop_chen，但远程没有怎么办？
+$ git push origin develop_chen
+这样就在远程建立一个和本地一样的分支 
+
+git branch --set-upstream-to=origin/develop  develop  本地分支和远程分支建立跟踪关系
+
+// 将本地分支进行改名
+git branch -m old_branch new_branch
+
+// 将远程分支的老分支删除
+git push origin :old_branch
+
+// 将改名后的分支push到远程
+git push origin new_branch</code></pre><h3 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h3><pre><code>//列出所有tag
+$ git tag
+
+//新建一个tag在当前commit
+$ git tag [tag]
+
+//新建一个tag在指定commit
+$ git tag [tag] [commit]
+
+//删除本地tag
+$ git tag -d [tag]
+
+//删除远程tag
+$ git push origin :refs/tags/[tagName]
+
+//查看tag信息
+$ git show [tag]
+
+//提交指定tag
+$ git push [remote] [tag]
+
+//提交所有tag
+$ git push [remote] --tags
+
+//新建一个分支，指向某个tag
+$ git checkout -b [branch] [tag]</code></pre><h3 id="查看信息"><a href="#查看信息" class="headerlink" title="查看信息"></a>查看信息</h3><pre><code>//显示有变更的文件
+$ git status
+
+//显示当前分支的版本历史
+$ git log
+
+//显示commit历史，以及每次commit发生变更的文件
+$ git log --stat
+
+//搜索提交历史，根据关键词
+$ git log -S [keyword]
+
+//显示某个commit之后的所有变动，每个commit占据一行
+$ git log [tag] HEAD --pretty=format:%s
+
+//显示某个commit之后的所有变动，其&quot;提交说明&quot;必须符合搜索条件
+$ git log [tag] HEAD --grep feature
+
+//显示某个文件的版本历史，包括文件改名
+$ git log --follow [file]
+$ git whatchanged [file]
+
+//显示指定文件相关的每一次diff
+$ git log -p [file]
+
+//显示过去5次提交
+$ git log -5 --pretty --oneline
+
+//显示所有提交过的用户，按提交次数排序
+$ git shortlog -sn
+
+//显示指定文件是什么人在什么时间修改过
+$ git blame [file]
+
+//显示暂存区和工作区的代码差异
+$ git diff
+
+//显示暂存区和上一个commit的差异
+$ git diff --cached [file]
+
+//显示工作区与当前分支最新commit之间的差异
+$ git diff HEAD
+
+//显示两次提交之间的差异
+$ git diff [first-branch]...[second-branch]
+
+//显示今天你写了多少行代码
+$ git diff --shortstat &quot;@{0 day ago}&quot;
+
+//显示某次提交的元数据和内容变化
+$ git show [commit]
+
+//显示某次提交发生变化的文件
+$ git show --name-only [commit]
+
+//显示某次提交时，某个文件的内容
+$ git show [commit]:[filename]
+
+//显示当前分支的最近几次提交
+$ git reflog
+
+//从本地master拉取代码更新当前分支：branch 一般为master
+$ git rebase [branch]</code></pre><h3 id="远程同步"><a href="#远程同步" class="headerlink" title="远程同步"></a>远程同步</h3><pre><code>//更新远程仓储
+$ git remote update 
+
+# 下载远程仓库的所有变动
+$ git fetch [remote]
+
+//显示所有远程仓库
+$ git remote -v
+
+//显示某个远程仓库的信息
+$ git remote show [remote]
+
+//增加一个新的远程仓库，并命名
+$ git remote add [shortname] [url]
+
+//取回远程仓库的变化，并与本地分支合并
+$ git pull [remote] [branch]
+
+//上传本地指定分支到远程仓库
+$ git push [remote] [branch]
+
+//强行推送当前分支到远程仓库，即使有冲突
+$ git push [remote] --force
+
+//推送所有分支到远程仓库
+$ git push [remote] --all</code></pre><h3 id="撤销"><a href="#撤销" class="headerlink" title="撤销"></a>撤销</h3><pre><code>//恢复暂存区的指定文件到工作区
+$ git checkout [file]
+
+//恢复某个commit的指定文件到暂存区和工作区
+$ git checkout [commit] [file]
+
+//恢复暂存区的所有文件到工作区
+$ git checkout .
+
+//重置暂存区的指定文件，与上一次commit保持一致，但工作区不变
+$ git reset [file]
+
+//重置暂存区与工作区，与上一次commit保持一致
+$ git reset --hard
+
+//重置当前分支的指针为指定commit，同时重置暂存区，但工作区不变
+$ git reset [commit]
+
+//重置当前分支的HEAD为指定commit，同时重置暂存区和工作区，与指定commit一致
+$ git reset --hard [commit]
+
+//重置当前HEAD为指定commit，但保持暂存区和工作区不变
+$ git reset --keep [commit]
+
+//新建一个commit，用来撤销指定commit
+//后者的所有变化都将被前者抵消，并且应用到当前分支
+$ git revert [commit]
+
+//暂时将未提交的变化移除，稍后再移入
+$ git stash
+$ git stash pop
+其他(合并两个分支：Merge)
+//将开发分支代码合入到master中
+git checkout dev           #切换到dev开发分支
+git pull
+git checkout master
+git merge dev              #合并dev分支到master上
+git push origin master     #将代码推到master上
+
+//将master的代码同步更新到开发分支中
+//merge方法：保证主干提交线干净(可以安全回溯)
+git checkout master
+git pull
+git checkout dev
+git merge master
+git pull origin dev</code></pre>
             </div>
             <hr/>
 
@@ -580,7 +771,7 @@ NSLog(@&quot;加密后密码:%@  解密后密码: %@&quot;,encryptedPWD,decrypte
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://nibaotiao.github.io/2019/10/11/密码学初窥/">https://nibaotiao.github.io/2019/10/11/密码学初窥/</a>
+                    <a href="https://nibaotiao.github.io/2019/03/23/Git-常用命令/">https://nibaotiao.github.io/2019/03/23/Git-常用命令/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -618,28 +809,8 @@ NSLog(@&quot;加密后密码:%@  解密后密码: %@&quot;,encryptedPWD,decrypte
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Base64/">
-                                    <span class="chip bg-color">Base64</span>
-                                </a>
-                            
-                                <a href="/tags/MD5/">
-                                    <span class="chip bg-color">MD5</span>
-                                </a>
-                            
-                                <a href="/tags/HMAC/">
-                                    <span class="chip bg-color">HMAC</span>
-                                </a>
-                            
-                                <a href="/tags/AES/">
-                                    <span class="chip bg-color">AES</span>
-                                </a>
-                            
-                                <a href="/tags/RSA/">
-                                    <span class="chip bg-color">RSA</span>
-                                </a>
-                            
-                                <a href="/tags/指纹识别/">
-                                    <span class="chip bg-color">指纹识别</span>
+                                <a href="/tags/Git/">
+                                    <span class="chip bg-color">Git</span>
                                 </a>
                             
                         </div>
@@ -805,31 +976,35 @@ NSLog(@&quot;加密后密码:%@  解密后密码: %@&quot;,encryptedPWD,decrypte
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/10/11/密码学初窥/">
+                <a href="/2019/05/12/Swift-的一些知识点/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="密码学初窥">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Swift 的一些知识点">
                         
-                        <span class="card-title">密码学初窥</span>
+                        <span class="card-title">Swift 的一些知识点</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Base64base64是一种完全可反编译的编码方式，因为其编码算法完全公开，所以分分钟会被破解，所以这个一定不能用于密码的‘加密’。一些不需要特别加密的信息，比如用户名，我们可以用base64进行编码，让人一眼看不出来是什么就可以了。
-b
+                            泛型
+Swift 提供了泛型，让你可以写出灵活而且可重用的函数和类型
+Swift 标准库就是通过泛型构建出来的
+Swift 数组和字典类型都是泛型集
+
+比如：
+func swapTwoValues&lt;T&gt;(_ a : inout 
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-10-11
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-05-12
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -838,32 +1013,19 @@ b
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Base64/">
-                        <span class="chip bg-color">Base64</span>
+                    <a href="/tags/Swift/">
+                        <span class="chip bg-color">Swift</span>
                     </a>
                     
-                    <a href="/tags/MD5/">
-                        <span class="chip bg-color">MD5</span>
+                    <a href="/tags/泛型/">
+                        <span class="chip bg-color">泛型</span>
                     </a>
                     
-                    <a href="/tags/HMAC/">
-                        <span class="chip bg-color">HMAC</span>
-                    </a>
-                    
-                    <a href="/tags/AES/">
-                        <span class="chip bg-color">AES</span>
-                    </a>
-                    
-                    <a href="/tags/RSA/">
-                        <span class="chip bg-color">RSA</span>
-                    </a>
-                    
-                    <a href="/tags/指纹识别/">
-                        <span class="chip bg-color">指纹识别</span>
+                    <a href="/tags/关联/">
+                        <span class="chip bg-color">关联</span>
                     </a>
                     
                 </div>
@@ -877,31 +1039,41 @@ b
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/10/09/一些小知识点/">
+                <a href="/2019/03/07/RunTime/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="一些小知识点">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="RunTime">
                         
-                        <span class="card-title">一些小知识点</span>
+                        <span class="card-title">RunTime</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            id 和 instancetype的区别id 和 instancetype虽然都是万能指针，但是还是存在一定的区别：
-
-id 在编译时候不能判断对象的真是类型，但是instancetype 编译的时候可以判断对象真实类型。这样的话，编写代码
+                            
+原理Runtime翻译过来就是运行时的意思，它是一套底层的C语言API，它是iOS内部的核心之一，我们平时编写的OC代码，底层都是基于它来实现的。
+应用场景
+分类添加属性（关联）
+消息转发机制
+动态交换方法
+KVO KVC
+获取类属性
+字
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-10-09
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-03-07
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            跳跳魔王
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/iOS/" class="post-category">
+                                    iOS
+                                </a>
+                            
                             
                         </span>
                     </div>
@@ -909,12 +1081,8 @@ id 在编译时候不能判断对象的真是类型，但是instancetype 编译�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/面试/">
-                        <span class="chip bg-color">面试</span>
-                    </a>
-                    
-                    <a href="/tags/知识点/">
-                        <span class="chip bg-color">知识点</span>
+                    <a href="/tags/Runtime/">
+                        <span class="chip bg-color">Runtime</span>
                     </a>
                     
                 </div>
