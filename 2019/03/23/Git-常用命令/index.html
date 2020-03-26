@@ -589,11 +589,38 @@ git branch -m old_branch new_branch
 git push origin :old_branch
 
 // 将改名后的分支push到远程
-git push origin new_branch</code></pre><h3 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h3><pre><code>//列出所有tag
+git push origin new_branch</code></pre><h3 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h3><p>Git 支持两种标签：轻量标签（lightweight）与附注标签（annotated）。</p>
+<p>轻量标签很像一个不会改变的分支——它只是某个特定提交的引用。</p>
+<p>而附注标签是存储在 Git 数据库中的一个完整对象， 它们是可以被校验的，其中包含打标签者的名字、电子邮件地址、日期时间， 此外还有一个标签信息，并且可以使用 GNU Privacy Guard （GPG）签名并验证。 通常会建议创建附注标签，这样你可以拥有以上所有信息。但是如果你只是想用一个临时的标签， 或者因为某些原因不想要保存这些信息，那么也可以用轻量标签。</p>
+<pre><code>//列出所有tag
 $ git tag
 
-//新建一个tag在当前commit
-$ git tag [tag]
+//附注标签
+在 Git 中创建附注标签十分简单。 最简单的方式是当你在运行 tag 命令时指定 -a 选项：
+$ git tag -a v1.4 -m &quot;my version 1.4&quot;
+
+-m 选项指定了一条将会存储在标签中的信息。 如果没有为附注标签指定一条信息，Git 会启动编辑器要求你输入信息。
+
+通过使用 git show 命令可以看到标签信息和与之对应的提交信息：
+$ git show v1.4
+
+tag v1.4
+Tagger: Ben Straub &lt;ben@straub.cc&gt;
+Date:   Sat May 3 20:19:12 2014 -0700
+
+my version 1.4
+
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+changed the version number
+输出显示了打标签者的信息、打标签的日期时间、附注信息，然后显示具体的提交信息。
+
+//轻量标签
+另一种给提交打标签的方式是使用轻量标签。 轻量标签本质上是将提交校验和存储到一个文件中——没有保存任何其他信息。
+创建轻量标签，不需要使用 -a、-s 或 -m 选项，只需要提供标签名字：
+$ git tag v1.4-lw
 
 //新建一个tag在指定commit
 $ git tag [tag] [commit]
@@ -729,11 +756,21 @@ $ git reset --keep [commit]
 //后者的所有变化都将被前者抵消，并且应用到当前分支
 $ git revert [commit]
 
-//暂时将未提交的变化移除，稍后再移入
+//有时，当你在项目的一部分上已经工作一段时间后，所有东西都进入了混乱的状态， 
+而这时你想要切换到另一个分支做一点别的事情。 问题是，你不想仅仅因为过会儿回到这一点而为做了一半的工作创建一次提交。 
+针对这个问题的答案是 git stash 命令。
+
+//要查看贮藏的东西
+$ git stash list
+stash@{0}: WIP on master: 049d078 added the index file
+stash@{1}: WIP on master: c264051 Revert &quot;added file_size&quot;
+stash@{2}: WIP on master: 21d80a5 added number to log
+
 $ git stash
-$ git stash pop
-其他(合并两个分支：Merge)
-//将开发分支代码合入到master中
+$ git stash pop #会将当前分支的最后一次缓存的内容释放出来，但是刚才的记录不存在list中
+$ git stash apply #会将当前分支的最后一次缓存的内容释放出来，但是刚才的记录还存在list中
+
+$ git stash apply @{x} ，可以将编号x的缓存释放出来，但是该缓存还存在于list中</code></pre><h2 id="其他-合并两个分支：Merge"><a href="#其他-合并两个分支：Merge" class="headerlink" title="其他(合并两个分支：Merge)"></a>其他(合并两个分支：Merge)</h2><pre><code>//将开发分支代码合入到master中
 git checkout dev           #切换到dev开发分支
 git pull
 git checkout master
