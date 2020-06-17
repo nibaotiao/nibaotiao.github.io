@@ -4,9 +4,9 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="密码学初窥, 跳跳爱可乐">
-    <meta name="description" content="Base64base64是一种完全可反编译的编码方式，因为其编码算法完全公开，所以分分钟会被破解，所以这个一定不能用于密码的‘加密’。一些不需要特别加密的信息，比如用户名，我们可以用base64进行编码，让人一眼看不出来是什么就可以了。
-b">
+    <meta name="keywords" content="Mach-O, 跳跳爱可乐">
+    <meta name="description" content="mac-o 的全程是 mach object file format，包括可执行文件，目标代码，共享库，动态库等。
+构建mach-o文件，需要编译器和静态链接器一起工作，编译器负责把高级语言转换为中间代码，然后静态链接器就把中间代码组合成m">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -14,7 +14,7 @@ b">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>密码学初窥 | 跳跳爱可乐</title>
+    <title>Mach-O | 跳跳爱可乐</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -304,12 +304,12 @@ b">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">密码学初窥</h1>
+                    <h1 class="description center-align post-title">Mach-O</h1>
                 </div>
             </div>
         </div>
@@ -424,33 +424,9 @@ b">
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/Base64/">
-                                <span class="chip bg-color">Base64</span>
-                            </a>
-                        
-                            <a href="/tags/MD5/">
-                                <span class="chip bg-color">MD5</span>
-                            </a>
-                        
-                            <a href="/tags/HMAC/">
-                                <span class="chip bg-color">HMAC</span>
-                            </a>
-                        
-                            <a href="/tags/AES/">
-                                <span class="chip bg-color">AES</span>
-                            </a>
-                        
-                            <a href="/tags/RSA/">
-                                <span class="chip bg-color">RSA</span>
-                            </a>
-                        
-                            <a href="/tags/指纹识别/">
-                                <span class="chip bg-color">指纹识别</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -462,7 +438,7 @@ b">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-10-11
+                    2020-06-17
                 </div>
                 
 
@@ -479,82 +455,8 @@ b">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Base64"><a href="#Base64" class="headerlink" title="Base64"></a>Base64</h2><p>base64是一种完全可反编译的编码方式，因为其编码算法完全公开，所以分分钟会被破解，所以这个一定不能用于密码的‘加密’。一些不需要特别加密的信息，比如用户名，我们可以用base64进行编码，让人一眼看不出来是什么就可以了。</p>
-<p>base64是网络上最常见的用于传输8bit字节代码的编码方式之一，base64要求把每3个8bit字节转换为4个6bit的字节，然后把6bit再添加两个高位0，组成4个8bit的字节，也就是转换后字符串要变原来长1/3。</p>
-<p>比如说：</p>
-<pre><code>转换前 aaaaaabb ccccdddd eeffffff
-转换后 00aaaaaa 00bbcccc 00ddddee 00ffffff</code></pre><p>上面的三个字节是原文，下面四个字节是转换后的base64编码，其前两位均为0.</p>
-<p>转换后，我们用一个码表来得到我们想要的字符串（最终的base64编码）</p>
-<p><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1570779290584&di=861dc30fbdbeef988b0adf2aca44be41&imgtype=jpg&src=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D436575270%2C516839960%26fm%3D214%26gp%3D0.jpg" alt></p>
-<p>我们再看一个例子：</p>
-<p>转换前 10101101 10111010 01110110<br>转换后 00101011 00011011 00101001 00110110</p>
-<p>对应的十进制是 43 27 41 54<br>对应码表中的 rbp2</p>
-<p>可是原文的字节数应该是3的倍数把，如果这个条件不满足的话，应该怎么办呢？</p>
-<p>解决方案是：原文的字节不够的地方可以用0来补足，转换成base64编码用=来代替。这就是为什么有的base64编码会以一个或者两个等号结束的原因，但等号最多只有两个。</p>
-<p>因为：</p>
-<pre><code>余数 = 原文字节数  MOD 3</code></pre><p>所以余数在任何情况下都只可能是0 1 2中的一个。如果余数是0的话，表示原文的字节数正好是3的倍数。如果是1的话，就让base64编码是3的倍数，就要补2个等号；同理，如果是2的话，就要补1个等号。</p>
-<p>因为=字符并不在base64码表里，其意义在于结束符号，在base64编码时遇见=即可知道base64编码字符串结束了。</p>
-<h2 id="MD5"><a href="#MD5" class="headerlink" title="MD5"></a>MD5</h2><p>全称是Message Digest Algorithm 5，翻译为 消息摘要算法第五版。它能对输入信息生成唯一的128位（16字节）32个字符的散列值。输入两个不同的明文不会得到相同输出值。</p>
-<p><strong>其过程是不可逆的</strong></p>
-<p>由于MD5加密算法具有较好的安全性，而且免费，因此该算法被广泛使用。</p>
-<p>主要用于数字签名，文件完整性验证以及口令加密等方面。</p>
-<p><img src="http://api.cocoachina.com/uploads//20180322/1521683538237825.png" alt="一个交互实例"></p>
-<p>当用户注册，登录时，我们可以直接对密码进行md5操作，用户登录时，系统把用户输入的密码计算md5值，然后再去和系统中保存的md5进行比较，只要一样就可以登录，系统并不知道用户的密码是什么。</p>
-<p>MD5的特点：</p>
-<ul>
-<li>压缩性：任意长度的数据，计算出来的md5值长度都是固定的</li>
-<li>容易计算：从原始数据计算出md5的值非常容易</li>
-<li>抗修改性：对原始数据的任何改动，哪怕只修改一个字节，所得到的的md5的散列值都会有很大区别</li>
-<li>弱抗碰撞：已知原始数据和其md5值，想找到一具有相同md5值的数据是非常困难的（伪造数据）</li>
-<li>强抗碰撞：想到两个不同的数据，使他们具有相同的md5散列值是非常困难的</li>
-</ul>
-<blockquote>
-<p>不过现在，MD5已不再绝对安全，网上有很多可以查询MD5原始数据的网站。</p>
-</blockquote>
-<p>针对这种情况，需要对md5稍作修改，增加解密的难度。</p>
-<ul>
-<li>加盐 salt： 在明文的固定位置插入随机串，然后再进行md5</li>
-<li>先加密，后乱序：先对明文进行md5，然后对加密得到的md5字符串进行乱序。</li>
-</ul>
-<p>宗旨，就算被人攻破数据库，也无法正确解密正确的明文。</p>
-<h2 id="AES"><a href="#AES" class="headerlink" title="AES"></a>AES</h2><p>高级加密标准advanced encryption standard，简称AES。是美国联邦政府采用的一种区块加密标准。AES设计有三个密钥长度：128，192，256位，相对而言，AES的128密钥比DES的56密钥强1021倍。AES算法主要包括三个方面：轮变化，圈数和密钥扩展。</p>
-<p>AES加密的特点：</p>
-<ul>
-<li>安全性强，高性能，高效率，易用灵活</li>
-<li>在软件和硬件上都能快速的加密解密，只需要很少的存储资源</li>
-</ul>
-<p>AES的使用：除了类库本身只有Config类里面包含AESCrpt.h，只有两个方法用到。一个是保存用户名和密码，密码使用了AES加密，另一个是解密密码后再返回这个密码；保存用户名和密码是将用户名和密码放到了本地的一个沙盒之中，获取的时候直接从本地读取加密后的文件，经过解密和服务器上用户数据进行比较。</p>
-<pre><code>-(void)saveUserNameAndPwd:(NSString *)userName andPwd:(NSString *)pwd  
-{  
-    NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];  
-    [settings removeObjectForKey:@&quot;UserName&quot;];  
-    [settings removeObjectForKey:@&quot;Password&quot;];  
-    [settings setObject:userName forKey:@&quot;UserName&quot;];  
-
-    pwd = [AESCrypt encrypt:pwd password:@&quot;pwd&quot;];  
-
-    [settings setObject:pwd forKey:@&quot;Password&quot;];  
-    [settings synchronize];  
-}  
--(NSString *)getPwd  
-{  
-    NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];  
-    NSString * temp = [settings objectForKey:@&quot;Password&quot;];  
-    return [AESCrypt decrypt:temp password:@&quot;pwd&quot;];  
-}</code></pre><p>正如官方给出示例用法一样，AES的使用非常简单，首先要添加头文件 #import “AESCrypt.h”，使用示例如下：</p>
-<pre><code>NSString *pwdKey = @&quot;新风作浪&quot;;  
-NSString *password = @&quot;duxinfeng123456&quot;;  
-
-NSString *encryptedPWD = [AESCrypt encrypt:password password:pwdKey];  
-NSString *decryptedPWD = [AESCrypt decrypt:encryptedPWD password:pwdKey];  
-
-NSLog(@&quot;加密后密码:%@  解密后密码: %@&quot;,encryptedPWD,decryptedPWD);</code></pre><h2 id="RSA"><a href="#RSA" class="headerlink" title="RSA"></a>RSA</h2><p>RSA是非对称加密算法，它需要两个密钥：</p>
-<ul>
-<li>公钥（public key）</li>
-<li>私钥 （private key）</li>
-</ul>
-<p>公钥和私钥是一对，如果用公钥对数据加密，只有对应的私钥才能解密；如果用私钥对数据进行加密，那么只有对应的公钥才能解密。</p>
-<p>优点：算法复杂度强，安全性依赖于算法于密钥<br>缺点：加密速度没有对称加密速度快，一般用于小数据</p>
+                <p>mac-o 的全程是 mach object file format，包括可执行文件，目标代码，共享库，动态库等。</p>
+<p>构建mach-o文件，需要编译器和静态链接器一起工作，编译器负责把高级语言转换为中间代码，然后静态链接器就把中间代码组合成mach-o。</p>
 
             </div>
             <hr/>
@@ -580,7 +482,7 @@ NSLog(@&quot;加密后密码:%@  解密后密码: %@&quot;,encryptedPWD,decrypte
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://nibaotiao.github.io/2019/10/11/密码学初窥/">https://nibaotiao.github.io/2019/10/11/密码学初窥/</a>
+                    <a href="https://nibaotiao.github.io/2020/06/17/Mach-O/">https://nibaotiao.github.io/2020/06/17/Mach-O/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -617,31 +519,7 @@ NSLog(@&quot;加密后密码:%@  解密后密码: %@&quot;,encryptedPWD,decrypte
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/Base64/">
-                                    <span class="chip bg-color">Base64</span>
-                                </a>
-                            
-                                <a href="/tags/MD5/">
-                                    <span class="chip bg-color">MD5</span>
-                                </a>
-                            
-                                <a href="/tags/HMAC/">
-                                    <span class="chip bg-color">HMAC</span>
-                                </a>
-                            
-                                <a href="/tags/AES/">
-                                    <span class="chip bg-color">AES</span>
-                                </a>
-                            
-                                <a href="/tags/RSA/">
-                                    <span class="chip bg-color">RSA</span>
-                                </a>
-                            
-                                <a href="/tags/指纹识别/">
-                                    <span class="chip bg-color">指纹识别</span>
-                                </a>
-                            
+                            <span class="chip bg-color">无标签</span>
                         </div>
                     
                 </div>
@@ -809,20 +687,22 @@ NSLog(@&quot;加密后密码:%@  解密后密码: %@&quot;,encryptedPWD,decrypte
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/06/17/Mach-O/">
+                <a href="/2020/06/17/Generics-Collection-POP-Memory-Management/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Mach-O">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Generics, Collection, POP, Memory Management">
                         
-                        <span class="card-title">Mach-O</span>
+                        <span class="card-title">Generics, Collection, POP, Memory Management</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            mac-o 的全程是 mach object file format，包括可执行文件，目标代码，共享库，动态库等。
-构建mach-o文件，需要编译器和静态链接器一起工作，编译器负责把高级语言转换为中间代码，然后静态链接器就把中间代码组合成m
+                            泛型举个例子：
+let nations = [&quot;中国&quot;, &quot;美国&quot;, &quot;日本&quot;]
+func showNations(arr : [String]) {
+    arr.map { 
                         
                     </div>
                     <div class="publish-info">
@@ -847,26 +727,25 @@ NSLog(@&quot;加密后密码:%@  解密后密码: %@&quot;,encryptedPWD,decrypte
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/10/09/一些小知识点/">
+                <a href="/2019/10/11/密码学初窥/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="一些小知识点">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="密码学初窥">
                         
-                        <span class="card-title">一些小知识点</span>
+                        <span class="card-title">密码学初窥</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            id 和 instancetype的区别id 和 instancetype虽然都是万能指针，但是还是存在一定的区别：
-
-id 在编译时候不能判断对象的真是类型，但是instancetype 编译的时候可以判断对象真实类型。这样的话，编写代码
+                            Base64base64是一种完全可反编译的编码方式，因为其编码算法完全公开，所以分分钟会被破解，所以这个一定不能用于密码的‘加密’。一些不需要特别加密的信息，比如用户名，我们可以用base64进行编码，让人一眼看不出来是什么就可以了。
+b
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-10-09
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-10-11
                             </span>
                         <span class="publish-author">
                             
@@ -879,12 +758,28 @@ id 在编译时候不能判断对象的真是类型，但是instancetype 编译�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/面试/">
-                        <span class="chip bg-color">面试</span>
+                    <a href="/tags/Base64/">
+                        <span class="chip bg-color">Base64</span>
                     </a>
                     
-                    <a href="/tags/知识点/">
-                        <span class="chip bg-color">知识点</span>
+                    <a href="/tags/MD5/">
+                        <span class="chip bg-color">MD5</span>
+                    </a>
+                    
+                    <a href="/tags/HMAC/">
+                        <span class="chip bg-color">HMAC</span>
+                    </a>
+                    
+                    <a href="/tags/AES/">
+                        <span class="chip bg-color">AES</span>
+                    </a>
+                    
+                    <a href="/tags/RSA/">
+                        <span class="chip bg-color">RSA</span>
+                    </a>
+                    
+                    <a href="/tags/指纹识别/">
+                        <span class="chip bg-color">指纹识别</span>
                     </a>
                     
                 </div>

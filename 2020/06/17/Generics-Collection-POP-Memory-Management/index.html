@@ -4,9 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="密码学初窥, 跳跳爱可乐">
-    <meta name="description" content="Base64base64是一种完全可反编译的编码方式，因为其编码算法完全公开，所以分分钟会被破解，所以这个一定不能用于密码的‘加密’。一些不需要特别加密的信息，比如用户名，我们可以用base64进行编码，让人一眼看不出来是什么就可以了。
-b">
+    <meta name="keywords" content="Generics, Collection, POP, Memory Management, 跳跳爱可乐">
+    <meta name="description" content="泛型举个例子：
+let nations = [&amp;quot;中国&amp;quot;, &amp;quot;美国&amp;quot;, &amp;quot;日本&amp;quot;]
+func showNations(arr : [String]) {
+    arr.map { ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -14,7 +16,7 @@ b">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>密码学初窥 | 跳跳爱可乐</title>
+    <title>Generics, Collection, POP, Memory Management | 跳跳爱可乐</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -304,12 +306,12 @@ b">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">密码学初窥</h1>
+                    <h1 class="description center-align post-title">Generics, Collection, POP, Memory Management</h1>
                 </div>
             </div>
         </div>
@@ -424,33 +426,9 @@ b">
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/Base64/">
-                                <span class="chip bg-color">Base64</span>
-                            </a>
-                        
-                            <a href="/tags/MD5/">
-                                <span class="chip bg-color">MD5</span>
-                            </a>
-                        
-                            <a href="/tags/HMAC/">
-                                <span class="chip bg-color">HMAC</span>
-                            </a>
-                        
-                            <a href="/tags/AES/">
-                                <span class="chip bg-color">AES</span>
-                            </a>
-                        
-                            <a href="/tags/RSA/">
-                                <span class="chip bg-color">RSA</span>
-                            </a>
-                        
-                            <a href="/tags/指纹识别/">
-                                <span class="chip bg-color">指纹识别</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -462,7 +440,7 @@ b">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-10-11
+                    2020-06-17
                 </div>
                 
 
@@ -479,82 +457,158 @@ b">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Base64"><a href="#Base64" class="headerlink" title="Base64"></a>Base64</h2><p>base64是一种完全可反编译的编码方式，因为其编码算法完全公开，所以分分钟会被破解，所以这个一定不能用于密码的‘加密’。一些不需要特别加密的信息，比如用户名，我们可以用base64进行编码，让人一眼看不出来是什么就可以了。</p>
-<p>base64是网络上最常见的用于传输8bit字节代码的编码方式之一，base64要求把每3个8bit字节转换为4个6bit的字节，然后把6bit再添加两个高位0，组成4个8bit的字节，也就是转换后字符串要变原来长1/3。</p>
-<p>比如说：</p>
-<pre><code>转换前 aaaaaabb ccccdddd eeffffff
-转换后 00aaaaaa 00bbcccc 00ddddee 00ffffff</code></pre><p>上面的三个字节是原文，下面四个字节是转换后的base64编码，其前两位均为0.</p>
-<p>转换后，我们用一个码表来得到我们想要的字符串（最终的base64编码）</p>
-<p><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1570779290584&di=861dc30fbdbeef988b0adf2aca44be41&imgtype=jpg&src=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D436575270%2C516839960%26fm%3D214%26gp%3D0.jpg" alt></p>
-<p>我们再看一个例子：</p>
-<p>转换前 10101101 10111010 01110110<br>转换后 00101011 00011011 00101001 00110110</p>
-<p>对应的十进制是 43 27 41 54<br>对应码表中的 rbp2</p>
-<p>可是原文的字节数应该是3的倍数把，如果这个条件不满足的话，应该怎么办呢？</p>
-<p>解决方案是：原文的字节不够的地方可以用0来补足，转换成base64编码用=来代替。这就是为什么有的base64编码会以一个或者两个等号结束的原因，但等号最多只有两个。</p>
-<p>因为：</p>
-<pre><code>余数 = 原文字节数  MOD 3</code></pre><p>所以余数在任何情况下都只可能是0 1 2中的一个。如果余数是0的话，表示原文的字节数正好是3的倍数。如果是1的话，就让base64编码是3的倍数，就要补2个等号；同理，如果是2的话，就要补1个等号。</p>
-<p>因为=字符并不在base64码表里，其意义在于结束符号，在base64编码时遇见=即可知道base64编码字符串结束了。</p>
-<h2 id="MD5"><a href="#MD5" class="headerlink" title="MD5"></a>MD5</h2><p>全称是Message Digest Algorithm 5，翻译为 消息摘要算法第五版。它能对输入信息生成唯一的128位（16字节）32个字符的散列值。输入两个不同的明文不会得到相同输出值。</p>
-<p><strong>其过程是不可逆的</strong></p>
-<p>由于MD5加密算法具有较好的安全性，而且免费，因此该算法被广泛使用。</p>
-<p>主要用于数字签名，文件完整性验证以及口令加密等方面。</p>
-<p><img src="http://api.cocoachina.com/uploads//20180322/1521683538237825.png" alt="一个交互实例"></p>
-<p>当用户注册，登录时，我们可以直接对密码进行md5操作，用户登录时，系统把用户输入的密码计算md5值，然后再去和系统中保存的md5进行比较，只要一样就可以登录，系统并不知道用户的密码是什么。</p>
-<p>MD5的特点：</p>
-<ul>
-<li>压缩性：任意长度的数据，计算出来的md5值长度都是固定的</li>
-<li>容易计算：从原始数据计算出md5的值非常容易</li>
-<li>抗修改性：对原始数据的任何改动，哪怕只修改一个字节，所得到的的md5的散列值都会有很大区别</li>
-<li>弱抗碰撞：已知原始数据和其md5值，想找到一具有相同md5值的数据是非常困难的（伪造数据）</li>
-<li>强抗碰撞：想到两个不同的数据，使他们具有相同的md5散列值是非常困难的</li>
-</ul>
+                <h1 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h1><p>举个例子：</p>
+<pre><code>let nations = [&quot;中国&quot;, &quot;美国&quot;, &quot;日本&quot;]
+func showNations(arr : [String]) {
+    arr.map { str in
+        print(&quot;\(str)&quot;)
+    }
+}</code></pre><p>定义了一组国家，然后把国家名字打印出来。</p>
+<p>怎么优化上面的代码呢？</p>
+<pre><code>arr.map { print(&quot;\($0)&quot;) }</code></pre><p>把打印的代码简化吗？当然，这个是可以的，但是我想说的是下面的需求。</p>
+<p>showNations 需要支持打印 【int】【double】等等。</p>
+<p>那要怎么做呢？</p>
+<pre><code>func showArray&lt;T&gt;(arr: [T]) {
+    arr.map { print(&quot;\($0)&quot;) }
+}</code></pre><p>T就是我们要泛化的类型，具体的类型在使用的时候再传入。</p>
+<p>泛型的主要目的就是把有相同逻辑，类型却不同的代码归拢在一起。</p>
+<h1 id="类型约束"><a href="#类型约束" class="headerlink" title="类型约束"></a>类型约束</h1><p>先看一个数据结构体：</p>
+<pre><code>struct HTNTransition&lt;S: Hashable, E: Hashable&gt; {
+    let event: E
+    let fromState: S
+    let toState: S
+
+    init(event: E, fromState: S, toState: S) {
+        self.event = event
+        self.fromState = fromState
+        self.toState = toState
+    }
+}</code></pre><p>这里补充一个知识点：什么是Hashable？</p>
 <blockquote>
-<p>不过现在，MD5已不再绝对安全，网上有很多可以查询MD5原始数据的网站。</p>
+<p>符合Hashable协议的任何类型，既可以在集合(Set)中使用，也可以作为字典键使用。默认情况下，标准库中的许多类型都符合Hashable：字符串，整数，浮点和布尔值，还有事件集合（even sets）。其他类型（例如，选项（optionals），数组(Array)和范围(Range)）在其类型参数实现符合hashable时就会自动变为hashable。</p>
 </blockquote>
-<p>针对这种情况，需要对md5稍作修改，增加解密的难度。</p>
-<ul>
-<li>加盐 salt： 在明文的固定位置插入随机串，然后再进行md5</li>
-<li>先加密，后乱序：先对明文进行md5，然后对加密得到的md5字符串进行乱序。</li>
-</ul>
-<p>宗旨，就算被人攻破数据库，也无法正确解密正确的明文。</p>
-<h2 id="AES"><a href="#AES" class="headerlink" title="AES"></a>AES</h2><p>高级加密标准advanced encryption standard，简称AES。是美国联邦政府采用的一种区块加密标准。AES设计有三个密钥长度：128，192，256位，相对而言，AES的128密钥比DES的56密钥强1021倍。AES算法主要包括三个方面：轮变化，圈数和密钥扩展。</p>
-<p>AES加密的特点：</p>
-<ul>
-<li>安全性强，高性能，高效率，易用灵活</li>
-<li>在软件和硬件上都能快速的加密解密，只需要很少的存储资源</li>
-</ul>
-<p>AES的使用：除了类库本身只有Config类里面包含AESCrpt.h，只有两个方法用到。一个是保存用户名和密码，密码使用了AES加密，另一个是解密密码后再返回这个密码；保存用户名和密码是将用户名和密码放到了本地的一个沙盒之中，获取的时候直接从本地读取加密后的文件，经过解密和服务器上用户数据进行比较。</p>
-<pre><code>-(void)saveUserNameAndPwd:(NSString *)userName andPwd:(NSString *)pwd  
-{  
-    NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];  
-    [settings removeObjectForKey:@&quot;UserName&quot;];  
-    [settings removeObjectForKey:@&quot;Password&quot;];  
-    [settings setObject:userName forKey:@&quot;UserName&quot;];  
-
-    pwd = [AESCrypt encrypt:pwd password:@&quot;pwd&quot;];  
-
-    [settings setObject:pwd forKey:@&quot;Password&quot;];  
-    [settings synchronize];  
-}  
--(NSString *)getPwd  
-{  
-    NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];  
-    NSString * temp = [settings objectForKey:@&quot;Password&quot;];  
-    return [AESCrypt decrypt:temp password:@&quot;pwd&quot;];  
-}</code></pre><p>正如官方给出示例用法一样，AES的使用非常简单，首先要添加头文件 #import “AESCrypt.h”，使用示例如下：</p>
-<pre><code>NSString *pwdKey = @&quot;新风作浪&quot;;  
-NSString *password = @&quot;duxinfeng123456&quot;;  
-
-NSString *encryptedPWD = [AESCrypt encrypt:password password:pwdKey];  
-NSString *decryptedPWD = [AESCrypt decrypt:encryptedPWD password:pwdKey];  
-
-NSLog(@&quot;加密后密码:%@  解密后密码: %@&quot;,encryptedPWD,decryptedPWD);</code></pre><h2 id="RSA"><a href="#RSA" class="headerlink" title="RSA"></a>RSA</h2><p>RSA是非对称加密算法，它需要两个密钥：</p>
-<ul>
-<li>公钥（public key）</li>
-<li>私钥 （private key）</li>
-</ul>
-<p>公钥和私钥是一对，如果用公钥对数据加密，只有对应的私钥才能解密；如果用私钥对数据进行加密，那么只有对应的公钥才能解密。</p>
-<p>优点：算法复杂度强，安全性依赖于算法于密钥<br>缺点：加密速度没有对称加密速度快，一般用于小数据</p>
+<p>上述结构体里的常量（let 修饰），可以是不同的类型，既可以是枚举，也可以是字符串或者整数。</p>
+<p>那为什么要定义S和E两个不同的泛型呢？</p>
+<p>主要是考虑灵活性，可以适配更多的项目。</p>
+<p>Hashable 同时也遵守Equatable协议，通过实现==运算符来确定自定义的类或者结构是否相同。</p>
+<h1 id="关联类型"><a href="#关联类型" class="headerlink" title="关联类型"></a>关联类型</h1><p>协议里的关联类型也可以使用泛型来处理，比如：</p>
+<pre><code>protocol HTNState {
+    associatedtype StateType
+    func add(_ item: StateType)
+}</code></pre><p>使用代码如下：（非泛型）</p>
+<pre><code>struct states: HTNState {
+    typealias StateType = Int
+    func add(_ item: Int) {
+        //...
+    }
+}</code></pre><p>使用代码如下：（泛型）</p>
+<pre><code>struct states&lt;T&gt;: HTNState {
+    func add(_ item: T) {
+        //...
+    }
+}</code></pre><p>这样关联类型也可以用到泛型的好处了。</p>
+<h1 id="类型擦除"><a href="#类型擦除" class="headerlink" title="类型擦除"></a>类型擦除</h1><p>在使用关联类型时，有个事需要注意一下。如果使用了上述协议作为属性。</p>
+<pre><code>class stateDelegate&lt;T&gt; {
+    var state: T
+    var delegate: HTNState
+}</code></pre><p>会提示 no initializers 的错误，接着提示  error: protocol ‘HTNState’ can only be used as a generic constraint because it has Self or associated type requirements。意思是 HTNState 协议只能作为泛型的约束来使用，因为它里面必须要包含必须的self或者关联类型。</p>
+<p>那怎么破呢？</p>
+<p>思路是增加个中间层，让这个抽象类型具体化。</p>
+<h1 id="Where-子句"><a href="#Where-子句" class="headerlink" title="Where 子句"></a>Where 子句</h1><p>函数 扩展和关联类型都可以使用where子句。where是一种约束，比如：</p>
+<pre><code>func stateFilter&lt;FromState:HTNState, ToState:HTNState&gt;(_ from:FromState, _ to:ToState) where FromState.StateType == ToState.StateType {
+    //...
+}</code></pre><p>这个函数就要求StateType 具有相同的类型。</p>
+<h1 id="泛型与Any"><a href="#泛型与Any" class="headerlink" title="泛型与Any"></a>泛型与Any</h1><p>这俩与区别吗？看起来很相似，但是还是有区别。区别在于 Any会避开类型检测，要尽量少用。而泛型则要安全的多，举个例子：</p>
+<pre><code>func add&lt;T&gt;(_ input: T) -&gt; T {
+    //...
+    return input;
+}
+func anyAdd(_ input: Any) -&gt; Any {
+    //...
+    return input;
+}</code></pre><p>这两个函数都允许任意类型的input参数，不同之处是anyAdd函数的入参可以返回值的类型可以不同，这样容易对数据类型失去控制。</p>
+<h1 id="Swift-内存管理"><a href="#Swift-内存管理" class="headerlink" title="Swift 内存管理"></a>Swift 内存管理</h1><h2 id="内存分配"><a href="#内存分配" class="headerlink" title="内存分配"></a>内存分配</h2><h3 id="Heap"><a href="#Heap" class="headerlink" title="Heap"></a>Heap</h3><p>在 Heap 上内存分配的时候需要锁定 Heap 上能够容纳存放对象的空闲块，主要是为了线程安全，我们需要对这些进行锁定和同步。</p>
+<blockquote>
+<p>Heap 是完全二叉树，即除最底层节点外都是填满的，最底层节点填充是从左到右。Swift 的 Heap 是通过双向链表实现。由于 Heap 是可以 retain 和 release 所以很容易分配空间就不连续了。采用链表的目的是希望能够将内存块连起来，在 release 时通过调整链表指针来整合空间。</p>
+</blockquote>
+<p>在 retain 时不可避免需要遍历 Heap，找到合适大小的内存块，能优化的也只是记录以前遍历的情况减少一些遍历。但是 Heap 是很大的，这样每次遍历还是很耗时，而且 release 为了能够整合空间还需要判断当前内存块的前一块和后面那块是否为空闲等，如果空闲还需要遍历链表查询，所以最终的解决方式是双向链表。</p>
+<p>只把空闲内存块用指针连起来形成链表，这样 retain 时可以减少遍历，效率理论上可以提高一倍，在 release 时将多余空间插入到 Heap 开始的位置和先前移到前面的空间进行整合。</p>
+<p>即使效率高了但是还是比不过 Stack，所以苹果也将以前 OC 里的一些放在 Heap 里的类型改造成了值类型。</p>
+<h3 id="Stack"><a href="#Stack" class="headerlink" title="Stack"></a>Stack</h3><p>Stack 的结构很简单，push 和 pop 就完事了，内存上只需要维护 Stack 末端的指针即可。由于它的简单所以处理一些时效性不高，临时的事情是非常合适的，所以可以把 Stack 看成是一个交换临时数据的内存区域。在多线程上，由于 Stack 是线程独有的，所以也不需要考虑线程安全相关问题。</p>
+<h3 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a>内存对齐</h3><p>Swift 也有内存对齐的概念</p>
+<pre><code>struct DragonFirePosition {
+    var x:Int64 //8 Bytes
+    var y:Int32 //4 Bytes
+    //8 + 4
+}
+struct DragonHomePosition {
+    var y:Int32 //4 Bytes + 对齐内存(4 Bytes)
+    var x:Int64 //8 Bytes
+    //4 + 4 + 8
+}
+let firePositionSize = MemoryLayout&lt;DragonFirePosition&gt;.size //12
+let homePositionSize = MemoryLayout&lt;DragonHomePosition&gt;.size //16</code></pre><h2 id="Swift-派发机制"><a href="#Swift-派发机制" class="headerlink" title="Swift 派发机制"></a>Swift 派发机制</h2><p>派发目的是让 CPU 知道被调用的函数在哪里。Swift 语言是支持编译型语言的直接派发，函数表派发和消息机制派发三种派发方式的，下面分别对这三种派发方式说明下。</p>
+<h3 id="直接派发"><a href="#直接派发" class="headerlink" title="直接派发"></a>直接派发</h3><p>C++ 默认使用的是直接派发，加上 virtual 修饰符可以改成函数表派发。直接派发是最快的，原因是调用指令会少，还可以通过编译器进行比如内联等方式的优化。缺点是由于缺少动态性而不支持继承。</p>
+<pre><code>struct DragonFirePosition {
+    var x:Int64
+    var y:Int32
+    func land() {}
+}
+func DragonWillFire(_ position:DragonFirePosition) {
+    position.land()
+}
+let position = DragonFirePosition(x: 342, y: 213)
+DragonWillFire(position)</code></pre><p>编译 inline 后 DragonWillFire(DragonFirePosition(x: 342, y: 213)) 会直接跳到方法实现的地方，结果就变成 position.land()。</p>
+<h3 id="函数表派发"><a href="#函数表派发" class="headerlink" title="函数表派发"></a>函数表派发</h3><p>Java 默认就是使用的函数表派发，通过 final 修饰符改成直接派发。函数表派发是有动态性的，在 Swift 里函数表叫 witness table，大部分语言叫 virtual table。一个类里会用数组来存储里面的函数指针，override 父类的函数会替代以前的函数，子类添加的函数会被加到这个数组里。举个例子：</p>
+<pre><code>class Fish {
+    func swim() {}
+    func eat() {
+        //normal eat
+    }
+}
+class FlyingFish: Fish {
+    override func eat() {
+        //flying fish eat
+    }
+    func fly() {}
+}</code></pre><p>编译器会给 Fish 类和 FlyingFish 类分别创建 witness table。在 Fish 的函数表里有 swim 和 eat 函数，在 FlyingFish 函数表里有父类 Fish 的 swim，覆盖了父类的 eat 和新增加的函数 fly。</p>
+<p>一个函数被调用时会先去读取对象的函数表，再根据类的地址加上该的函数的偏移量得到函数地址，然后跳到那个地址上去。从编译后的字节码这方面来看就是两次读取一次跳转，比直接派发还是慢了些。</p>
+<h3 id="消息机制派发"><a href="#消息机制派发" class="headerlink" title="消息机制派发"></a>消息机制派发</h3><p>这种机制是在运行时可以改变函数的行为，KVO 和 CoreData 都是这种机制的运用。OC 默认就是使用的消息机制派发，使用 C 来直接派发获取高性能。Swift 可以通过 dynamic 修饰来支持消息机制派发。</p>
+<p>当一个消息被派发，运行时就会按照继承关系向上查找被调用的函数。但是这样效率不高，所以需要通过缓存来提高效率，这样查找性能就能和函数派发差不多了。</p>
+<p>具体派发<br>声明<br>值类型都会采用直接派发。无论是 class 还是协议 的 extension 也都是直接派发。class 和协议是函数表派发。</p>
+<p>指定派发方式<br>final：让类里的函数使用直接派发，这样该函数将会没有动态性，运行时也没法取到这个函数。<br>dynamic：可以让类里的函数使用消息机制派发，可以让 extension 里的函数被 override。<br>派发优化<br>Swift 会在这上面做优化，比如一个函数没有 override，Swift 就可能会使用直接派发的方式，所以如果属性绑定了 KVO 它的 getter 和 setter 方法可能会被优化成直接派发而导致 KVO 的失效，所以记得加上 dynamic 的修饰来保证有效。后面 Swift 应该会在这个优化上去做更多的处理。</p>
+<p>基本数据类型内存管理<br>通过 MemoryLayout 来看看基本数据类型的内存是占用多大</p>
+<pre><code>MemoryLayout&lt;Int&gt;.size      //8
+MemoryLayout&lt;Int16&gt;.size    //2
+MemoryLayout&lt;Bool&gt;.size     //1
+MemoryLayout&lt;Float&gt;.size    //4
+MemoryLayout&lt;Double&gt;.size   //8</code></pre><h2 id="Struct-内存管理"><a href="#Struct-内存管理" class="headerlink" title="Struct 内存管理"></a>Struct 内存管理</h2><p>对于 Struct 在编译中就能够确定空间，也就不需要额外的空间给运行时用，运行过程调用时就是直接传地址。</p>
+<p>下面我们再看看 Struct 的 MemoryLayout</p>
+<pre><code>struct DragonFirePosition {
+    var x:Int64 //8 Bytes
+    var y:Int32 //4 Bytes
+    //8 + 4
+    func land() {}
+}
+MemoryLayout&lt;DragonFirePosition&gt;.size       //12
+MemoryLayout&lt;DragonFirePosition&gt;.alignment  //8
+MemoryLayout&lt;DragonFirePosition&gt;.stride     //16</code></pre><p>alignment 可以看出是按照 8 Bytes 来对齐的，所以这里 struct 是用到了字节对齐，实际占用大小通过 stride 可以看出就是 8 * 2 为16。</p>
+<p>如果把 var x:Int64 改成可选类型会增加 4个 Bytes，不过就这个 case 来说实际大小还是16，这个也是因为内存对齐的原因。</p>
+<h3 id="Class-内存管理"><a href="#Class-内存管理" class="headerlink" title="Class 内存管理"></a>Class 内存管理</h3><p>Class 本身是在 Stack 上分配的，在 Heap 上还需要保存 Class 的 Type 信息，这个 Type 信息里有函数表，在函数派发时就可以按照这个函数表进行派发了。继承的话子类只要在自己的 Type 信息里记录自己的信息即可。</p>
+<p>协议类型内存管理<br>协议类型的内存模型是 Existential Container。先看下面例子</p>
+<pre><code>protocol DragonFire {}
+extension DragonFire {
+    func fire() {
+        print(&quot;fire!!!&quot;)
+    }
+}
+struct YellowDragon: DragonFire {
+    let eyes = &quot;blue&quot;
+    let teeth = 48
+}
+let classSize = MemoryLayout&lt;YellowDragon&gt;.size  //32
+let protocolSize = MemoryLayout&lt;DragonFire&gt;.size //40</code></pre><p>这个例子里看这个结构体即遵循了这个协议而且内容还比这个协议多，而协议的 size 还要大，这个是为啥呢？这个是由于 Existential Container 的前三个 word 是叫 Value buffer 用来存储 inline 的值。第四个 word 是 Value Witness Table，存储值的各种操作比如 allocate，copy，destruct 和 deallocate 等。第五个 word 是 Protocol Witness Table 是存储协议的函数。</p>
+<h3 id="泛型的内存管理"><a href="#泛型的内存管理" class="headerlink" title="泛型的内存管理"></a>泛型的内存管理</h3><p>泛型采用的和 Existential Container 原理类似。Value Witness Table 和 Protocol Witness Table 会作为隐形的参数传递到泛型方法里。不过经过编译器的层层 inline 优化，最终类型都会被推导出来也就不再需要 Existential Container 这一套了。</p>
 
             </div>
             <hr/>
@@ -580,7 +634,7 @@ NSLog(@&quot;加密后密码:%@  解密后密码: %@&quot;,encryptedPWD,decrypte
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://nibaotiao.github.io/2019/10/11/密码学初窥/">https://nibaotiao.github.io/2019/10/11/密码学初窥/</a>
+                    <a href="https://nibaotiao.github.io/2020/06/17/Generics-Collection-POP-Memory-Management/">https://nibaotiao.github.io/2020/06/17/Generics-Collection-POP-Memory-Management/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -617,31 +671,7 @@ NSLog(@&quot;加密后密码:%@  解密后密码: %@&quot;,encryptedPWD,decrypte
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/Base64/">
-                                    <span class="chip bg-color">Base64</span>
-                                </a>
-                            
-                                <a href="/tags/MD5/">
-                                    <span class="chip bg-color">MD5</span>
-                                </a>
-                            
-                                <a href="/tags/HMAC/">
-                                    <span class="chip bg-color">HMAC</span>
-                                </a>
-                            
-                                <a href="/tags/AES/">
-                                    <span class="chip bg-color">AES</span>
-                                </a>
-                            
-                                <a href="/tags/RSA/">
-                                    <span class="chip bg-color">RSA</span>
-                                </a>
-                            
-                                <a href="/tags/指纹识别/">
-                                    <span class="chip bg-color">指纹识别</span>
-                                </a>
-                            
+                            <span class="chip bg-color">无标签</span>
                         </div>
                     
                 </div>
@@ -805,9 +835,51 @@ NSLog(@&quot;加密后密码:%@  解密后密码: %@&quot;,encryptedPWD,decrypte
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2020/06/17/Generics-Collection-POP-Memory-Management/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Generics, Collection, POP, Memory Management">
+                        
+                        <span class="card-title">Generics, Collection, POP, Memory Management</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            泛型举个例子：
+let nations = [&quot;中国&quot;, &quot;美国&quot;, &quot;日本&quot;]
+func showNations(arr : [String]) {
+    arr.map { 
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-17
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            跳跳魔王
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2020/06/17/Mach-O/">
                     <div class="card-image">
@@ -826,47 +898,8 @@ NSLog(@&quot;加密后密码:%@  解密后密码: %@&quot;,encryptedPWD,decrypte
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-06-17
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            跳跳魔王
-                            
-                        </span>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2019/10/09/一些小知识点/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="一些小知识点">
-                        
-                        <span class="card-title">一些小知识点</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            id 和 instancetype的区别id 和 instancetype虽然都是万能指针，但是还是存在一定的区别：
-
-id 在编译时候不能判断对象的真是类型，但是instancetype 编译的时候可以判断对象真实类型。这样的话，编写代码
-                        
-                    </div>
-                    <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-10-09
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-17
                             </span>
                         <span class="publish-author">
                             
@@ -875,18 +908,6 @@ id 在编译时候不能判断对象的真是类型，但是instancetype 编译�
                             
                         </span>
                     </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/面试/">
-                        <span class="chip bg-color">面试</span>
-                    </a>
-                    
-                    <a href="/tags/知识点/">
-                        <span class="chip bg-color">知识点</span>
-                    </a>
-                    
                 </div>
                 
             </div>
